@@ -2,7 +2,9 @@ package net.nvsoftware.ProductService.service;
 
 import net.nvsoftware.ProductService.entity.ProductEntity;
 import net.nvsoftware.ProductService.model.ProductRequest;
+import net.nvsoftware.ProductService.model.ProductResponse;
 import net.nvsoftware.ProductService.repository.ProductRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,5 +26,14 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(productEntity);
         return productEntity.getId();
+    }
+
+    @Override
+    public ProductResponse getProductById(long id) {
+        ProductEntity productEntity = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ProductService getById not found with id: " + id));
+        ProductResponse productResponse = new ProductResponse();
+        BeanUtils.copyProperties(productEntity, productResponse);
+        return productResponse;
     }
 }
