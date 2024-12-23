@@ -23,6 +23,7 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private long productId;
+    private long quantity;
     private long totalAmount;
     private Instant orderDate;
     private String orderStatus;
